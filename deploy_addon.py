@@ -66,7 +66,7 @@ html_dir = os.path.join(docs_dir, '_build', 'html')
 with open(os.path.join(root_dir, addon, 'addon.xml'), 'rb') as addon_xml:
     version = re.search(r'(?<!xml )version="(.+?)"', addon_xml.read()).group(1)
 zip_name = '{0}-{1}'.format(addon, version)
-zip_path = os.path.join(root_dir, zip_name)
+zip_path = os.path.join(root_dir, zip_name + '.zip')
 # Define URLs
 gh_repo_url = 'https://{gh_token}@github.com/{repo_slug}.git'.format(gh_token=gh_token, repo_slug=repo_slug)
 kodi_repo_dir = os.path.join(root_dir, 'kodi_repo')
