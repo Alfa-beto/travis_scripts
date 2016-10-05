@@ -56,9 +56,13 @@ parser = argparse.ArgumentParser(description='Deploy an addon to my Kodi repo an
 parser.add_argument('-r', '--repo', help='push to my Kodi repo', action='store_true')
 parser.add_argument('-d', '--docs', help='publish docs to GH pages', action='store_true')
 parser.add_argument('-z', '--zip', help='pack addon into a ZIP file', action='store_true')
+parser.add_argument('addon', nargs='?', help='addon ID', action='store', default='')
 args = parser.parse_args()
 # Define paths
-addon = os.environ['ADDON']
+if not args.addon:
+    addon = os.environ['ADDON']
+else:
+    addon = args.addon
 repo_slug= os.environ['TRAVIS_REPO_SLUG']
 root_dir = os.path.dirname(os.path.abspath(__file__))
 docs_dir = os.path.join(root_dir, 'docs')
