@@ -57,6 +57,7 @@ parser.add_argument('-r', '--repo', help='push to my Kodi repo', action='store_t
 parser.add_argument('-d', '--docs', help='publish docs to GH pages', action='store_true')
 parser.add_argument('-z', '--zip', help='pack addon into a ZIP file', action='store_true')
 parser.add_argument('addon', nargs='?', help='addon ID', action='store', default='')
+parser.add_argument('-k', '--kodi', nargs=1, help='the name of Kodi addon repo')
 args = parser.parse_args()
 # Define paths
 if not args.addon:
@@ -72,7 +73,8 @@ with open(os.path.join(root_dir, addon, 'addon.xml'), 'rb') as addon_xml:
 zip_name = '{0}-{1}'.format(addon, version)
 zip_path = os.path.join(root_dir, zip_name + '.zip')
 # Define URLs
-gh_repo_url = 'https://{gh_token}@github.com/{repo_slug}.git'.format(gh_token=gh_token, repo_slug=repo_slug)
+REPO_URL_MASK = 'https://{gh_token}@github.com/{repo_slug}.git'
+gh_repo_url = REPO_URL_MASK.format(gh_token=gh_token, repo_slug=repo_slug)
 kodi_repo_dir = os.path.join(root_dir, 'kodi_repo')
 kodi_repo_url = 'https://{gh_token}@github.com/romanvm/kodi_repo.git'.format(gh_token=gh_token)
 # Start working
@@ -108,3 +110,17 @@ if args.docs:
     execute(['git', 'commit', '-m' '"Updates {addon} docs to v.{version}"'.format(addon=addon, version=version)])
     execute(['git', 'push', '--force', '--quiet', gh_repo_url, 'HEAD:gh-pages'], silent=True)
     print('{addon} docs v.{version} published to GitHub Pages.'.format(addon=addon, version=version))
+if args.kodi:
+    os.chdir(root_dir)
+    off_repo_fork = REPO_URL_MASK.format(gh_token=gh_token, repo_slug=args.kodi[0])
+    execute(['git', 'clone', off_repo_fork])
+    os.chdir(args.kodi[0])
+    execute(['git', 'remote', 'add', 'upstream', 'https://github.com/xbmc/repo-scripts.git'])
+    execute(['git', 'fetch', 'upstream'])
+    execute(['git', 'checkout', 'helix'])
+    execute(['git', 'merge', 'upstream/helix'])
+    execute(['git', 'branch', '-b', addon])
+    shutil.copy(os.path.join(root_dir, addon), os.path.join(root_dir, args.kodi[0]))
+    execute(['git', 'add', '--all', '.'])
+    execute(['git', 'commit', '-m', '[{addon}] {version}'.format(addon=addon, version=version)])
+    execute(['git', 'push', 'origin', addon])
