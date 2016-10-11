@@ -113,7 +113,7 @@ if args.docs:
 if args.kodi:
     os.chdir(root_dir)
     off_repo_fork = REPO_URL_MASK.format(gh_token=gh_token, repo_slug=args.kodi[0])
-    execute(['git', 'clone', off_repo_fork])
+    execute(['git', 'clone', off_repo_fork], silent=True)
     os.chdir(args.kodi[0])
     execute(['git', 'remote', 'add', 'upstream', 'https://github.com/xbmc/repo-scripts.git'])
     execute(['git', 'fetch', 'upstream'])
@@ -123,4 +123,4 @@ if args.kodi:
     shutil.copy(os.path.join(root_dir, addon), os.path.join(root_dir, args.kodi[0]))
     execute(['git', 'add', '--all', '.'])
     execute(['git', 'commit', '-m', '[{addon}] {version}'.format(addon=addon, version=version)])
-    execute(['git', 'push', 'origin', addon])
+    execute(['git', 'push', '--quiet', 'origin', addon])
