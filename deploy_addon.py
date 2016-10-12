@@ -24,10 +24,12 @@ def execute(args, silent=False):
         stdout = stderr = devnull
     else:
         stdout = stderr = None
+    call_string = ' '.join(args).replace(gh_token, '*****')
+    print('Executing: ' + call_string)
     res = call(args, stdout=stdout, stderr=stderr)
     if res:
         raise RuntimeError('Call {call} returned error code {res}'.format(
-            call=str(args).replace(gh_token, '*****'),
+            call=call_string),
             res=res
         ))
 
