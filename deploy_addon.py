@@ -73,10 +73,10 @@ with open(os.path.join(root_dir, addon, 'addon.xml'), 'rb') as addon_xml:
 zip_name = '{0}-{1}'.format(addon, version)
 zip_path = os.path.join(root_dir, zip_name + '.zip')
 # Define URLs
-REPO_URL_MASK = 'https://{gh_token}@github.com/{repo_slug}.git'
+REPO_URL_MASK = 'https://{gh_token}@github.com/romanvm/{repo_slug}.git'
 gh_repo_url = REPO_URL_MASK.format(gh_token=gh_token, repo_slug=repo_slug)
 kodi_repo_dir = os.path.join(root_dir, 'kodi_repo')
-kodi_repo_url = 'https://{gh_token}@github.com/romanvm/kodi_repo.git'.format(gh_token=gh_token)
+kodi_repo_url = REPO_URL_MASK.format(gh_token=gh_token, repo_slug='kodi_repo')
 # Start working
 os.chdir(root_dir)
 if args.zip:
