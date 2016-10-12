@@ -119,7 +119,7 @@ if args.kodi:
     os.chdir(args.kodi[0])
     execute(['git', 'remote', 'add', 'upstream', 'https://github.com/xbmc/repo-scripts.git'])
     execute(['git', 'fetch', 'upstream'])
-    execute(['git', 'checkout', '-b', 'isengard', '--track origin/isengard'])
+    execute(['git', 'checkout', '-b', 'isengard', '--track', 'origin/isengard'])
     execute(['git', 'merge', 'upstream/isengard'])
     execute(['git', 'branch', '-b', addon])
     shutil.copy(os.path.join(root_dir, addon), os.path.join(root_dir, args.kodi[0]))
