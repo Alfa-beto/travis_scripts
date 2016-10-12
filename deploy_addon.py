@@ -117,6 +117,8 @@ if args.kodi:
     off_repo_fork = REPO_URL_MASK.format(gh_token=gh_token, repo_slug=args.kodi[0])
     execute(['git', 'clone', off_repo_fork], silent=True)
     os.chdir(args.kodi[0])
+    execute(['git', 'config', 'user.name', '"Roman Miroshnychenko"'])
+    execute(['git', 'config', 'user.email', '"romanvm@yandex.ua"'])
     execute(['git', 'remote', 'add', 'upstream', 'https://github.com/xbmc/repo-scripts.git'])
     execute(['git', 'fetch', 'upstream'])
     execute(['git', 'checkout', '-b', 'isengard', '--track', 'origin/isengard'])
