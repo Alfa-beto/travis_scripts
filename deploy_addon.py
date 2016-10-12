@@ -29,7 +29,7 @@ def execute(args, silent=False):
     res = call(args, stdout=stdout, stderr=stderr)
     if res:
         raise RuntimeError('Call {call} returned error code {res}'.format(
-            call=call_string),
+            call=call_string,
             res=res
         ))
 
