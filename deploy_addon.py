@@ -122,7 +122,7 @@ if args.kodi:
     execute(['git', 'checkout', '-b', 'isengard', '--track', 'origin/isengard'])
     execute(['git', 'merge', 'upstream/isengard'])
     execute(['git', 'checkout', '-b', addon])
-    shutil.copy(os.path.join(root_dir, addon), os.path.join(root_dir, args.kodi[0]))
+    shutil.copytree(os.path.join(root_dir, addon), os.path.join(root_dir, args.kodi[0]))
     execute(['git', 'add', '--all', '.'])
     execute(['git', 'commit', '-m', '[{addon}] {version}'.format(addon=addon, version=version)])
     execute(['git', 'push', '--quiet', 'origin', addon])
