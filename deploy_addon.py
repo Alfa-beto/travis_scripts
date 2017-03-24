@@ -60,7 +60,7 @@ parser.add_argument('-d', '--docs', help='publish docs to GH pages', action='sto
 parser.add_argument('-z', '--zip', help='pack addon into a ZIP file', action='store_true')
 parser.add_argument('addon', nargs='?', help='addon ID', action='store', default='')
 parser.add_argument('-k', '--kodi', nargs=1, help='the name of Kodi addon repo')
-parser.add_argument('--debug', help='show hidden git messages', action='store true')
+parser.add_argument('--debug', help='show hidden git messages', action='store_true')
 args = parser.parse_args()
 # Define paths
 if not args.addon:
