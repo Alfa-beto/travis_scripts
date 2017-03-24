@@ -60,6 +60,7 @@ parser.add_argument('-d', '--docs', help='publish docs to GH pages', action='sto
 parser.add_argument('-z', '--zip', help='pack addon into a ZIP file', action='store_true')
 parser.add_argument('addon', nargs='?', help='addon ID', action='store', default='')
 parser.add_argument('-k', '--kodi', nargs=1, help='the name of Kodi addon repo')
+parser.add_argument('--debug', help='show hidden git messages', action='store true')
 args = parser.parse_args()
 # Define paths
 if not args.addon:
@@ -86,7 +87,7 @@ if args.zip:
 if args.repo:
     if not os.path.exists(zip_path):
         create_zip(zip_name, root_dir, addon)
-    execute(['git', 'clone', kodi_repo_url], silent=True)
+    execute(['git', 'clone', kodi_repo_url], silent=args.debug)
     os.chdir(kodi_repo_dir)
     execute(['git', 'checkout', 'gh-pages'])
     execute(['git', 'config', 'user.name', '"Roman Miroshnychenko"'])
@@ -97,8 +98,8 @@ if args.repo:
     execute(['python', '@generate.py'])
     os.chdir(kodi_repo_dir)
     execute(['git', 'add', '--all', '.'])
-    execute(['git', 'commit', '-m', '"Updates {addon} to v.{version}"'.format(addon=addon, version=version)])
-    execute(['git', 'push', '--quiet'], silent=True)
+    execute(['git', 'commit', '-m', '"Update {addon} to v.{version}"'.format(addon=addon, version=version)])
+    execute(['git', 'push', '--quiet'], silent=args.debug)
     print('Addon {addon} v{version} deployed to my Kodi repo'.format(addon=addon, version=version))
 if args.docs:
     os.chdir(docs_dir)
@@ -109,13 +110,13 @@ if args.docs:
     execute(['git', 'config', 'user.email', '"romanvm@yandex.ua"'])
     open('.nojekyll', 'w').close()
     execute(['git', 'add', '--all', '.'])
-    execute(['git', 'commit', '-m' '"Updates {addon} docs to v.{version}"'.format(addon=addon, version=version)])
-    execute(['git', 'push', '--force', '--quiet', gh_repo_url, 'HEAD:gh-pages'], silent=True)
+    execute(['git', 'commit', '-m' '"Update {addon} docs to v.{version}"'.format(addon=addon, version=version)])
+    execute(['git', 'push', '--force', '--quiet', gh_repo_url, 'HEAD:gh-pages'], silent=args.debug)
     print('{addon} docs v.{version} published to GitHub Pages.'.format(addon=addon, version=version))
 if args.kodi:
     os.chdir(root_dir)
     off_repo_fork = REPO_URL_MASK.format(gh_token=gh_token, repo_slug=args.kodi[0])
-    execute(['git', 'clone', off_repo_fork], silent=True)
+    execute(['git', 'clone', off_repo_fork], silent=args.debug)
     os.chdir(args.kodi[0])
     execute(['git', 'config', 'user.name', '"Roman Miroshnychenko"'])
     execute(['git', 'config', 'user.email', '"romanvm@yandex.ua"'])
