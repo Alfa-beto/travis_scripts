@@ -26,7 +26,7 @@ def execute(args, silent=False):
         stdout = stderr = None
     call_string = ' '.join(args).replace(gh_token, '*****')
     print('Executing: ' + call_string)
-    res = call(args)
+    res = call(args, stdout=stdout, stderr=stderr)
     if res:
         raise RuntimeError('Call {call} returned error code {res}'.format(
             call=call_string,
@@ -60,7 +60,6 @@ parser.add_argument('-d', '--docs', help='publish docs to GH pages', action='sto
 parser.add_argument('-z', '--zip', help='pack addon into a ZIP file', action='store_true')
 parser.add_argument('addon', nargs='?', help='addon ID', action='store', default='')
 parser.add_argument('-k', '--kodi', nargs=1, help='the name of Kodi addon repo')
-parser.add_argument('--debug', help='show hidden git messages', action='store_true')
 args = parser.parse_args()
 # Define paths
 if not args.addon:
@@ -76,7 +75,7 @@ with open(os.path.join(root_dir, addon, 'addon.xml'), 'rb') as addon_xml:
 zip_name = '{0}-{1}'.format(addon, version)
 zip_path = os.path.join(root_dir, zip_name + '.zip')
 # Define URLs
-REPO_URL_MASK = 'https://{gh_token}@github.com/romanvm/{repo_slug}.git'
+REPO_URL_MASK = 'https://{gh_token}@github.com/{repo_slug}.git'
 gh_repo_url = REPO_URL_MASK.format(gh_token=gh_token, repo_slug=repo_slug)
 kodi_repo_dir = os.path.join(root_dir, 'kodi_repo')
 kodi_repo_url = REPO_URL_MASK.format(gh_token=gh_token, repo_slug='kodi_repo')
@@ -87,7 +86,7 @@ if args.zip:
 if args.repo:
     if not os.path.exists(zip_path):
         create_zip(zip_name, root_dir, addon)
-    execute(['git', 'clone', kodi_repo_url], silent=args.debug)
+    execute(['git', 'clone', kodi_repo_url], silent=True)
     os.chdir(kodi_repo_dir)
     execute(['git', 'checkout', 'gh-pages'])
     execute(['git', 'config', 'user.name', '"Roman Miroshnychenko"'])
@@ -99,7 +98,7 @@ if args.repo:
     os.chdir(kodi_repo_dir)
     execute(['git', 'add', '--all', '.'])
     execute(['git', 'commit', '-m', '"Update {addon} to v.{version}"'.format(addon=addon, version=version)])
-    execute(['git', 'push', '--quiet'], silent=args.debug)
+    execute(['git', 'push', '--quiet'], silent=True)
     print('Addon {addon} v{version} deployed to my Kodi repo'.format(addon=addon, version=version))
 if args.docs:
     os.chdir(docs_dir)
@@ -111,12 +110,12 @@ if args.docs:
     open('.nojekyll', 'w').close()
     execute(['git', 'add', '--all', '.'])
     execute(['git', 'commit', '-m' '"Update {addon} docs to v.{version}"'.format(addon=addon, version=version)])
-    execute(['git', 'push', '--force', gh_repo_url, 'HEAD:gh-pages'], silent=args.debug)
+    execute(['git', 'push', '--force', '--quiet', gh_repo_url, 'HEAD:gh-pages'], silent=True)
     print('{addon} docs v.{version} published to GitHub Pages.'.format(addon=addon, version=version))
 if args.kodi:
     os.chdir(root_dir)
     off_repo_fork = REPO_URL_MASK.format(gh_token=gh_token, repo_slug=args.kodi[0])
-    execute(['git', 'clone', off_repo_fork], silent=args.debug)
+    execute(['git', 'clone', off_repo_fork], silent=True)
     os.chdir(args.kodi[0])
     execute(['git', 'config', 'user.name', '"Roman Miroshnychenko"'])
     execute(['git', 'config', 'user.email', '"romanvm@yandex.ua"'])
