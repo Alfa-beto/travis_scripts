@@ -78,7 +78,7 @@ zip_path = os.path.join(root_dir, zip_name + '.zip')
 REPO_URL_MASK = 'https://{gh_token}@github.com/{repo_slug}.git'
 gh_repo_url = REPO_URL_MASK.format(gh_token=gh_token, repo_slug=repo_slug)
 kodi_repo_dir = os.path.join(root_dir, 'kodi_repo')
-kodi_repo_url = REPO_URL_MASK.format(gh_token=gh_token, repo_slug='kodi_repo')
+kodi_repo_url = REPO_URL_MASK.format(gh_token=gh_token, repo_slug='romanvm/kodi_repo')
 # Start working
 os.chdir(root_dir)
 if args.zip:
