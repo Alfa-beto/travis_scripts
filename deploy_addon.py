@@ -111,7 +111,7 @@ if args.docs:
     open('.nojekyll', 'w').close()
     execute(['git', 'add', '--all', '.'])
     execute(['git', 'commit', '-m' '"Update {addon} docs to v.{version}"'.format(addon=addon, version=version)])
-    execute(['git', 'push', '--force', '--quiet', gh_repo_url, 'HEAD:gh-pages'], silent=args.debug)
+    execute(['git', 'push', '--force', gh_repo_url, 'HEAD:gh-pages'], silent=args.debug)
     print('{addon} docs v.{version} published to GitHub Pages.'.format(addon=addon, version=version))
 if args.kodi:
     os.chdir(root_dir)
