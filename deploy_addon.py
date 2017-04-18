@@ -114,7 +114,7 @@ if args.docs:
     print('{addon} docs v.{version} published to GitHub Pages.'.format(addon=addon, version=version))
 if args.kodi:
     os.chdir(root_dir)
-    off_repo_fork = REPO_URL_MASK.format(gh_token=gh_token, repo_slug=args.kodi[0])
+    off_repo_fork = REPO_URL_MASK.format(gh_token=gh_token, 'romanvm/' + repo_slug=args.kodi[0])
     execute(['git', 'clone', off_repo_fork], silent=True)
     os.chdir(args.kodi[0])
     execute(['git', 'config', 'user.name', '"Roman Miroshnychenko"'])
