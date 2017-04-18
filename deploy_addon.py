@@ -75,10 +75,10 @@ with open(os.path.join(root_dir, addon, 'addon.xml'), 'rb') as addon_xml:
 zip_name = '{0}-{1}'.format(addon, version)
 zip_path = os.path.join(root_dir, zip_name + '.zip')
 # Define URLs
-REPO_URL_MASK = 'https://{gh_token}@github.com/romanvm/{repo_slug}.git'
+REPO_URL_MASK = 'https://{gh_token}@github.com/{repo_slug}.git'
 gh_repo_url = REPO_URL_MASK.format(gh_token=gh_token, repo_slug=repo_slug)
 kodi_repo_dir = os.path.join(root_dir, 'kodi_repo')
-kodi_repo_url = REPO_URL_MASK.format(gh_token=gh_token, repo_slug='kodi_repo')
+kodi_repo_url = REPO_URL_MASK.format(gh_token=gh_token, repo_slug='romanvm/kodi_repo')
 # Start working
 os.chdir(root_dir)
 if args.zip:
@@ -97,7 +97,7 @@ if args.repo:
     execute(['python', '@generate.py'])
     os.chdir(kodi_repo_dir)
     execute(['git', 'add', '--all', '.'])
-    execute(['git', 'commit', '-m', '"Updates {addon} to v.{version}"'.format(addon=addon, version=version)])
+    execute(['git', 'commit', '-m', '"Update {addon} to v.{version}"'.format(addon=addon, version=version)])
     execute(['git', 'push', '--quiet'], silent=True)
     print('Addon {addon} v{version} deployed to my Kodi repo'.format(addon=addon, version=version))
 if args.docs:
@@ -109,7 +109,7 @@ if args.docs:
     execute(['git', 'config', 'user.email', '"romanvm@yandex.ua"'])
     open('.nojekyll', 'w').close()
     execute(['git', 'add', '--all', '.'])
-    execute(['git', 'commit', '-m' '"Updates {addon} docs to v.{version}"'.format(addon=addon, version=version)])
+    execute(['git', 'commit', '-m' '"Update {addon} docs to v.{version}"'.format(addon=addon, version=version)])
     execute(['git', 'push', '--force', '--quiet', gh_repo_url, 'HEAD:gh-pages'], silent=True)
     print('{addon} docs v.{version} published to GitHub Pages.'.format(addon=addon, version=version))
 if args.kodi:
