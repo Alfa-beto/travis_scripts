@@ -68,7 +68,7 @@ else:
     addon = args.addon
 repo_slug= os.environ['TRAVIS_REPO_SLUG']
 root_dir = os.path.dirname(os.path.abspath(__file__))
-addon_dir = os.path.join(root_dir, root_dir)
+addon_dir = os.path.join(root_dir, addon)
 docs_dir = os.path.join(root_dir, 'docs')
 html_dir = os.path.join(docs_dir, '_build', 'html')
 with open(os.path.join(root_dir, addon, 'addon.xml'), 'rb') as addon_xml:
