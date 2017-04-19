@@ -68,6 +68,7 @@ else:
     addon = args.addon
 repo_slug= os.environ['TRAVIS_REPO_SLUG']
 root_dir = os.path.dirname(os.path.abspath(__file__))
+addon_dir = os.path.join(root_dir, addon_dir)
 docs_dir = os.path.join(root_dir, 'docs')
 html_dir = os.path.join(docs_dir, '_build', 'html')
 with open(os.path.join(root_dir, addon, 'addon.xml'), 'rb') as addon_xml:
@@ -91,8 +92,11 @@ if args.repo:
     execute(['git', 'checkout', 'gh-pages'])
     execute(['git', 'config', 'user.name', '"Roman Miroshnychenko"'])
     execute(['git', 'config', 'user.email', '"romanvm@yandex.ua"'])
-    shutil.copy(os.path.join(root_dir, addon, 'addon.xml'), os.path.join(kodi_repo_dir, 'repo', addon))
-    shutil.copy(zip_path, os.path.join(kodi_repo_dir, 'repo', addon))
+    addon_repo = os.path.join(kodi_repo_dir, 'repo', addon)
+    if not os.path.exists(addon_repo):
+        os.mkdir(addon_repo)
+    shutil.copy(os.path.join(addon_dir, 'addon.xml'), addon_repo)
+    shutil.copy(zip_path, addon_repo)
     os.chdir(os.path.join(kodi_repo_dir, 'repo'))
     execute(['python', '@generate.py'])
     os.chdir(kodi_repo_dir)
@@ -121,8 +125,8 @@ if args.kodi:
     execute(['git', 'config', 'user.email', '"romanvm@yandex.ua"'])
     execute(['git', 'remote', 'add', 'upstream', 'https://github.com/xbmc/{0}.git'.format(args.kodi[0])])
     execute(['git', 'fetch', 'upstream'])
-    execute(['git', 'checkout', '-b', 'krypton', '--track', 'origin/krypton'])
-    execute(['git', 'merge', 'upstream/krypton'])
+    execute(['git', 'checkout', '-b', 'isengard', '--track', 'origin/isengard'])
+    execute(['git', 'merge', 'upstream/isengard'])
     os.system('git branch -D ' + addon)
     execute(['git', 'checkout', '-b', addon])
     clean_pyc(os.path.join(root_dir, addon))
