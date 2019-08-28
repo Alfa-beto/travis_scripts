@@ -97,7 +97,7 @@ if args.repo:
     execute(['git', 'config', 'user.email', USER_EMAIL])
     addon_repo = os.path.join(kodi_repo_dir, 'repo', addon)
     if not os.path.exists(addon_repo):
-        os.mkdir(addon_repo)
+        os.mkdirs(addon_repo)
     shutil.copy(os.path.join(addon_dir, 'addon.xml'), addon_repo)
     shutil.copy(zip_path, addon_repo)
     os.chdir(os.path.join(kodi_repo_dir, 'repo'))
