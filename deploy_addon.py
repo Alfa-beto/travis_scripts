@@ -95,9 +95,10 @@ if args.repo:
     # execute(['git', 'checkout', 'gh-pages'])
     execute(['git', 'config', 'user.name', USER_NAME])
     execute(['git', 'config', 'user.email', USER_EMAIL])
-    addon_repo = os.path.join(kodi_repo_dir, 'repo', addon)
+    # addon_repo = os.path.join(kodi_repo_dir, 'repo', addon)
+    addon_repo = os.path.join(kodi_repo_dir, addon)
     if not os.path.exists(addon_repo):
-        os.mkdirs(addon_repo)
+        os.mkdir(addon_repo)
     shutil.copy(os.path.join(addon_dir, 'addon.xml'), addon_repo)
     shutil.copy(zip_path, addon_repo)
     os.chdir(os.path.join(kodi_repo_dir, 'repo'))
