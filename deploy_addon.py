@@ -14,8 +14,8 @@ import shutil
 import argparse
 from subprocess import call
 
-USER_NAME = '"Roman Miroshnychenko"'
-USER_EMAIL = '"roman1972@gmail.com"'
+USER_NAME = '"________________"'
+USER_EMAIL = '"_____@gmail.com"'
 gh_token = os.environ['GH_TOKEN']
 devnull = open(os.devnull, 'w')
 
@@ -81,8 +81,8 @@ zip_path = os.path.join(root_dir, zip_name + '.zip')
 # Define URLs
 REPO_URL_MASK = 'https://{gh_token}@github.com/{repo_slug}.git'
 gh_repo_url = REPO_URL_MASK.format(gh_token=gh_token, repo_slug=repo_slug)
-kodi_repo_dir = os.path.join(root_dir, 'kodi_repo')
-kodi_repo_url = REPO_URL_MASK.format(gh_token=gh_token, repo_slug='romanvm/kodi_repo')
+kodi_repo_dir = os.path.join(root_dir, 'alfa-repo')
+kodi_repo_url = REPO_URL_MASK.format(gh_token=gh_token, repo_slug='alfa-jor/alfa-repo')
 # Start working
 os.chdir(root_dir)
 if args.zip:
@@ -123,12 +123,12 @@ if args.kodi:
     repo = args.kodi[0]
     branch = args.branch[0]
     os.chdir(root_dir)
-    off_repo_fork = REPO_URL_MASK.format(gh_token=gh_token, repo_slug='romanvm/' + repo)
+    off_repo_fork = REPO_URL_MASK.format(gh_token=gh_token, repo_slug='alfa-jor/' + repo)
     execute(['git', 'clone', off_repo_fork], silent=True)
     os.chdir(repo)
     execute(['git', 'config', 'user.name', USER_NAME])
     execute(['git', 'config', 'user.email', USER_EMAIL])
-    execute(['git', 'remote', 'add', 'upstream', 'https://github.com/xbmc/{}.git'.format(repo)])
+    # execute(['git', 'remote', 'add', 'upstream', 'https://github.com/xbmc/{}.git'.format(repo)])
     execute(['git', 'fetch', 'upstream'])
     execute(['git', 'checkout', '-b', branch, '--track', 'origin/{}'.format(branch)])
     execute(['git', 'merge', 'upstream/{}'.format(branch)])
