@@ -101,7 +101,7 @@ if args.repo:
     shutil.copy(os.path.join(addon_dir, 'addon.xml'), addon_repo)
     shutil.copy(zip_path, addon_repo)
     os.chdir(os.path.join(kodi_repo_dir, 'repo'))
-    execute(['python', '@generate.py'])
+    execute(['python', 'repo_prep.py'])
     os.chdir(kodi_repo_dir)
     execute(['git', 'add', '--all', '.'])
     execute(['git', 'commit', '-m', '"Update {addon} to v.{version}"'.format(addon=addon, version=version)])
