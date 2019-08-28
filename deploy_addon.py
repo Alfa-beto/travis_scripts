@@ -92,7 +92,7 @@ if args.repo:
         create_zip(zip_name, root_dir, addon)
     execute(['git', 'clone', kodi_repo_url], silent=True)
     os.chdir(kodi_repo_dir)
-    execute(['git', 'checkout', 'gh-pages'])
+    # execute(['git', 'checkout', 'gh-pages'])
     execute(['git', 'config', 'user.name', USER_NAME])
     execute(['git', 'config', 'user.email', USER_EMAIL])
     addon_repo = os.path.join(kodi_repo_dir, 'repo', addon)
